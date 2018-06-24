@@ -26,14 +26,14 @@ After using Jenkins for a while, I propose that:
 
 ## Example flow:
 
-- Hub is booted up with the information about config (mostly repo it needs to watch, and the branch that contains the code for the master itself)
+- Hub is booted up with the information about config (mostly repo it needs to watch, and the branch that contains the code for the Hub  itself)
 - `branch_update` event sent by GitWathcer daemon to Hub, pipeline/branch_update.py gets run on Hub
 - branch_update.py:
     - checks the branch name and notices it's a branch that needs to checked by CI (e.g. it doesn't start with tmp/)
     - notes that there are no Workers. It does the needfull to start booting up a worker (either locally or in cloud) with 
       the information about address & port of the Hub
-- Worker comes online and sends `work_required` event to master
-- Master runs pipeline/work_required.py. This
+- Worker comes online and sends `work_required` event to Hub
+- Hub runs pipeline/work_required.py. This
   - Checks some local data on what work is available for that kind of Worker (e.g. builder, integrationtester)
   - Hub sends the work package over in `start_work` event to Worker.
 - Worker runs pipeline/start_work.py that:
