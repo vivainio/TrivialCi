@@ -43,4 +43,5 @@ After using Jenkins for a while, I propose that:
   - Uploads the artifacts
   - Sends `work_status` updates to Hub (e.g. STARTING, BUILDING, FAILED), so that Hub can show the statuses of all the jobs it has dispatched in a small optional UI
   - Sends `work_done` event to the Hub
+  - Sends `work_available` (to the Hub) for a subsequent build step, integration testing, with pointer to the artifacts it just created
   - Sends new `work_required` event to get new work now that it's done!
