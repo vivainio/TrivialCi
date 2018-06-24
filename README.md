@@ -11,14 +11,14 @@ After using Jenkins for a while, I propose that:
 - It's easier to create a new CI from scratch than configure Jenkins. Groovy must die in fire.
 - Trying to do everything the opposite way from Jenkins is a good starting point. E.g. no plugins, no JVM, no pipeline config.
 - CI should have almost no built in features. It should listen to some events and launch scripts
-- It should be blazing fast. I.e. slaves and Hub maintain fully "git-fetched" repo in global area and do a "git worktree add" for working areas
+- It should be blazing fast. I.e. slaves and Hub maintain fully "git-fetched" repo in global area and do a "git worktree add" for working areas. This rules out some PaaS systems like Lambda. Own disk is king.
 
 ## Topology
 
 - Single Hub that runs scripts as responses to events
 - Multiple Workers that runs scripts as instructed by Hub
 - Workers can send events to Hub (work_required)
-- Hub and Worker can be on same machine. I.e. you don't need "cloud", containers or whatnot, and you can debug the flow on local machine.
+- Hub and Worker can be on same machine. I.e. you don't need "cloud", containers or whatnot, and you can debug the flow on local machine. 
 - Scripts get payloads with the data they require (branch info or whatever) either as base64 encoded json in argv or clean json from stdin. So yeah, you probably want to use language that can deal with this like Python to write these scripts.
 - There is no persistent state outside Hub and the artifacts from the jobs uploaded by Workers (in S3 or wherever). TBD where Hub state should be persisted (it's mostly append only event log, so json in file system should be ok?)
 - Hub state should not be valuable. The history of old jobs should be fully discoverable from static artifacts.
